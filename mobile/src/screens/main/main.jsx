@@ -32,6 +32,7 @@ export default function Main(){
                     return <Image source={icon.calendar} style={{width: 25, height: 25, opacity: focused ? 1 : 0.6}} />
                 },
                 tabBarShowLabel: false,
+                unmountOnBlur: true,
             }} />
             <Tab.Screen name="Profile" component={Profile_Section} options={{
                 headerTitleAlign: "center",
@@ -42,6 +43,7 @@ export default function Main(){
                     return <Image source={icon.profile} style={{width: 25, height: 25, opacity: focused ? 1 : 0.6}} />
                 },
                 tabBarShowLabel: false,
+                unmountOnBlur: true,
             }} />
         </Tab.Navigator>
     )
