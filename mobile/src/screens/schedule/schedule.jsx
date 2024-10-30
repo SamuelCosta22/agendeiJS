@@ -9,7 +9,14 @@ import Button from '../../components/button/button'
 LocaleConfig.locales["pt-br"] = ptBR;
 LocaleConfig.defaultLocale = "pt-br";
 
-export default function Schedule(){
+export default function Schedule(props){
+    const id_doctor = props.route.params.id_doctor;
+    const id_service = props.route.params.id_service;
+
+    function clickBooking(){
+        console.log(id_doctor, id_service, selectedDate, selectedHour)
+    }
+
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0,10));
     const [selectedHour, setSelectedHour] = useState("");
 
@@ -41,7 +48,7 @@ export default function Schedule(){
             </View>
             
             <View>
-                <Button text="Confirmar Reserva" />
+                <Button text="Confirmar Reserva" onPress={clickBooking} />
             </View>
         </View>
     )

@@ -12,39 +12,37 @@ const Tab = createBottomTabNavigator();
 
 export default function Main(){
     return(
-        <NavigationContainer>
-            <Tab.Navigator>
-                <Tab.Screen name="Home" component={Home_Section} options={{
-                    headerTitleAlign: "center",
-                    headerTitle: () => {
-                        return <Image source={icon.logo} style={{width: 125, height: 29}} />
-                    },
-                    tabBarIcon: ({focused}) => {
-                        return <Image source={icon.home} style={{width: 25, height: 25, opacity: focused ? 1 : 0.6}} />
-                    },
-                    tabBarShowLabel: false,
-                }} />
-                <Tab.Screen name="Calendar" component={Calendar_Section} options={{
-                    headerTitleAlign: "center",
-                    headerTitle: () => {
-                        return <Image source={icon.logo} style={{width: 125, height: 29}} />
-                    },
-                    tabBarIcon: ({focused}) => {
-                        return <Image source={icon.calendar} style={{width: 25, height: 25, opacity: focused ? 1 : 0.6}} />
-                    },
-                    tabBarShowLabel: false,
-                }} />
-                <Tab.Screen name="Profile" component={Profile_Section} options={{
-                    headerTitleAlign: "center",
-                    headerTitle: () => {
-                        return <Image source={icon.logo} style={{width: 125, height: 29}} />
-                    },
-                    tabBarIcon: ({focused}) => {
-                        return <Image source={icon.profile} style={{width: 25, height: 25, opacity: focused ? 1 : 0.6}} />
-                    },
-                    tabBarShowLabel: false,
-                }} />
-            </Tab.Navigator>
-        </NavigationContainer>
+        <Tab.Navigator>
+            <Tab.Screen name="Home" component={Home_Section} options={{
+                headerTitleAlign: "center",
+                headerTitle: () => {
+                    return <Image source={icon.logo} style={{width: 125, height: 29}} />
+                },
+                tabBarIcon: ({focused}) => {
+                    return <Image source={icon.home} style={{width: 25, height: 25, opacity: focused ? 1 : 0.6}} />
+                },
+                tabBarShowLabel: false,
+            }} />
+            <Tab.Screen name="Calendar" component={Calendar_Section} options={{
+                headerTitleAlign: "center",
+                headerTitle: () => {
+                    return <Image source={icon.logo} style={{width: 125, height: 29}} />
+                },
+                tabBarIcon: ({focused}) => {
+                    return <Image source={icon.calendar} style={{width: 25, height: 25, opacity: focused ? 1 : 0.6}} />
+                },
+                tabBarShowLabel: false,
+            }} />
+            <Tab.Screen name="Profile" component={Profile_Section} options={{
+                headerTitleAlign: "center",
+                headerTitle: () => {
+                    return <Image source={icon.logo} style={{width: 125, height: 29}} />
+                },
+                tabBarIcon: ({focused}) => {
+                    return <Image source={icon.profile} style={{width: 25, height: 25, opacity: focused ? 1 : 0.6}} />
+                },
+                tabBarShowLabel: false,
+            }} />
+        </Tab.Navigator>
     )
 }

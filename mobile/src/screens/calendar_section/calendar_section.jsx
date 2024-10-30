@@ -12,7 +12,7 @@ function Calendar_Section(){
             <Text style={styles.text}>Agende os seus serviços médicos</Text>
             <FlatList data={appointments} keyExtractor={(appoint) => appoint.id_appointment} showsVerticalScrollIndicator={false} renderItem={({item}) => {
                 return(
-                    <Appointment service={item.service} doctor={item.doctor} specialty={item.specialty} />
+                    <Appointment key={item.id_appointment} service={item.service} doctor={item.doctor} specialty={item.specialty} />
                 )
             }} />
         </View>

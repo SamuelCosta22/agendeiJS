@@ -2,7 +2,7 @@ import { Text, View } from "react-native"
 import Button from "../button/button"
 import { styles } from "../service/service.style"
 
-export default function Service({description, price}){
+export default function Service({id_service, description, price, onPress}){
     return(
         <View style={styles.service}>
             <View style={styles.containerText}>
@@ -17,7 +17,7 @@ export default function Service({description, price}){
             </View>
 
             <View style={styles.containerButton}>
-                <Button text="Agendar" /> 
+                <Button text="Agendar" onPress={() => onPress(id_service)} /> 
             </View>
         </View>
     )
