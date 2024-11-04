@@ -8,3 +8,10 @@ html, body {
     font-family: "Poppins";
     overflow-x: hidden;
 }
+
+select {
+    border: 0px;
+    background-color: #fff;
+    cursor: pointer;
+    width: 100%;
+}

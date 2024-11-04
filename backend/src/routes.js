@@ -4,6 +4,7 @@ import controllerUser from "./controllers/controller.user.js";
 import controllerAppointment from "./controllers/controller.appointment.js";
 
 import jwt from './token.js'
+import controllerAdmin from "./controllers/controller.admin.js";
 
 const router = Router();
 
@@ -20,6 +21,11 @@ router.get("/doctors/:id_doctor/services", jwt.ValidateToken, controllerDoctor.L
 router.post("/users/register", controllerUser.Register);
 router.post("/users/login", controllerUser.Login);
 router.get("/users/profile", jwt.ValidateToken, controllerUser.Profile);
+
+//Admins
+router.post("/admin/register", controllerAdmin.AdminRegister);
+router.post("/admin/login", controllerAdmin.AdminLogin);
+router.get("/admin/appointments", jwt.ValidateToken, controllerAdmin.List);
 
 //Appointments
 router.get("/appointments", jwt.ValidateToken, controllerAppointment.ListByUser);

@@ -35,7 +35,7 @@ export function NavBar() {
                     {/* Dropdown Menu */}
                     <div className="relative">
                         <button className="flex items-center hover:underline focus:outline-none" onClick={toggleDropdown}>
-                            Samuel Costa
+                            {localStorage.getItem("sessionName")}
                             <svg className={`w-4 h-4 ml-1 transition-transform ${isDropdownOpen ? "rotate-180" : "rotate-0"}`}
                                 fill="none"
                                 stroke="currentColor"
@@ -54,7 +54,7 @@ export function NavBar() {
                                 <button className="block px-4 py-2 hover:bg-gray-200 w-full text-left" onClick={() => {
                                     setIsDropdownOpen(false);
                                 }}>
-                                    Desconectar
+                                    <Link to='/'>Desconectar</Link>
                                 </button>
                             </div>
                         )}
@@ -69,7 +69,7 @@ export function NavBar() {
                         <li><Link className="hover:underline" to="/appointments">Agendamentos</Link></li>
                         <li><Link className="hover:underline" to="/doctors">Médicos</Link></li>
                         <li><Link className="hover:underline" to="#">Meu Perfil</Link></li>
-                        <li><button className="hover:underline">Desconectar</button></li>
+                        <li><Link className="hover:underline" to='/'>Desconectar</Link></li>
                     </ul>
                 </div>
             )}
