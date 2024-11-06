@@ -58,4 +58,12 @@ async function AdminListByEmail(email){
         return admin[0];
 }
 
-export default { List, AdminRegister, AdminListByEmail }
+async function ListUsers(){
+    let sql = `select id_user, name, email from users order by name`;
+
+    const users = await query(sql, []);
+
+    return users[0];
+}
+
+export default { List, AdminRegister, AdminListByEmail, ListUsers }

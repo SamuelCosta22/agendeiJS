@@ -1,28 +1,39 @@
-import repositoryDoctor from "../repositories/repository.doctor.js";
+import repoDoctor from "../repositories/repository.doctor.js";
 
-async function Listar(name){
-    const doctors = await repositoryDoctor.Listar(name);
+async function Listar(name) {
+
+    const doctors = await repoDoctor.Listar(name);
+
     return doctors;
 }
 
-async function Inserir(name, specialty, icon){
-    const doctor = await repositoryDoctor.Inserir(name, specialty, icon);
+async function Inserir(name, specialty, icon) {
+
+    const doctor = await repoDoctor.Inserir(name, specialty, icon);
+
     return doctor;
 }
 
 async function Editar(id_doctor, name, specialty, icon) {
-    const doctor = await repositoryDoctor.Editar(id_doctor, name, specialty, icon);
+
+    const doctor = await repoDoctor.Editar(id_doctor, name, specialty, icon);
+
     return doctor;
 }
 
 async function Excluir(id_doctor) {
-    const doctor = await repositoryDoctor.Excluir(id_doctor);
+
+    const doctor = await repoDoctor.Excluir(id_doctor);
+
     return doctor;
 }
 
-async function ListServices(id_doctor){
-    const serv = await repositoryDoctor.ListServices(id_doctor);
+async function ListarServicos(id_doctor) {
+
+    const serv = await repoDoctor.ListarServicos(id_doctor);
+
     return serv;
 }
 
-export default { Listar, Inserir, Editar, Excluir, ListServices }
+
+export default { Listar, Inserir, Editar, Excluir, ListarServicos }

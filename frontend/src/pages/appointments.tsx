@@ -4,6 +4,8 @@ import { Appointment } from "../components/appointment";
 import React, { useEffect, useState } from "react";
 import api from "../constants/api";
 import axios from "axios";
+import { confirmAlert } from "react-confirm-alert";
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 type AppointmentsProps = {
     id_appointment: number;
@@ -34,7 +36,20 @@ export function Appointments(){
         navigate("/appointments/edit/" + id_appointment)
     }
     function handleClickDelete(id_appointment: number){
-        console.log("Delete " + id_appointment)
+        confirmAlert({
+            title: "Exclusão",
+            message: "Confirmar exclusão deste agendamento?",
+            buttons: [
+                {
+                    label: "Sim",
+                    onClick: () => deleteAppointment(id_appointment)
+                },
+                {
+                    label: "Não",
+                    onClick: () => {}
+                }
+            ]
+        })
     }
     
     async function loadAppointments(){
@@ -43,16 +58,19 @@ export function Appointments(){
             const response = await api.get("/admin/appointments", {
                 params: {
                     id_doctor: idDoctor,
-                    dtStart: dtStart,
-                    dtEnd: dtEnd,
+                    dt_start: dtStart,
+                    dt_end: dtEnd,
                 }
             })
             if(response.data){
                 setAppointments(response.data)
             }
         } catch (error){
-            if (axios.isAxiosError(error) && error.response?.data.error)
+            if (axios.isAxiosError(error) && error.response?.data.error){
+                if(error.response.status == 401)
+                    return navigate("/");
                 alert(error.response?.data.error)
+            }
             else
                 alert("Erro ao efetuar login. Tente novamente mais tarde!")
             console.log(error)
@@ -66,10 +84,29 @@ export function Appointments(){
                 setDoctors(response.data)
             }
         } catch (error){
-            if (axios.isAxiosError(error) && error.response?.data.error)
+            if (axios.isAxiosError(error) && error.response?.data.error){
+                if(error.response.status == 401)
+                    return navigate("/");
                 alert(error.response?.data.error)
-            else
-                alert("Erro listar os médicos. Tente novamente mais tarde!")
+            } else
+                alert("Erro ao listar os médicos. Tente novamente mais tarde!")
+            console.log(error)
+        }
+    }
+
+    async function deleteAppointment(id_appointment: number){
+        try{
+            const response = await api.delete("/appointments/" + id_appointment)
+            if(response.data){
+                loadAppointments();
+            }
+        } catch (error){
+            if (axios.isAxiosError(error) && error.response?.data.error){
+                if(error.response.status == 401)
+                    return navigate("/");
+                alert(error.response?.data.error)
+            } else
+                alert("Erro ao excluir os dados. Tente novamente mais tarde!")
             console.log(error)
         }
     }
@@ -140,7 +177,7 @@ export function Appointments(){
                                     booking_hour={appoin.booking_hour}
                                     price={appoin.price}
                                     clickEdit={handleClickEdit}
-                                    clickDelete={handleClickDelete}
+                                    clickDelete={() => handleClickDelete(appoin.id_appointment)}
                                 />
                             })
                         }

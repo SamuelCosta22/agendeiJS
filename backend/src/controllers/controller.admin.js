@@ -30,4 +30,9 @@ async function AdminLogin(req, res){
         res.status(200).json(user);
 }
 
-export default { List, AdminRegister, AdminLogin }
+async function ListUsers(req, res){
+    const users = await serviceAdmin.ListUsers();
+    res.status(200).json(users);
+}
+
+export default { List, AdminRegister, AdminLogin, ListUsers }

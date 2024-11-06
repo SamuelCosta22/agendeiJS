@@ -4,11 +4,6 @@ import { useEffect, useState } from "react";
 import api from "../constants/api";
 import axios from "axios";
 
-type UsersProps = {
-    id_user: number,
-    name: string,
-}
-
 type DoctorsProps = {
     id_doctor: number,
     name: string,
@@ -19,40 +14,17 @@ type ServicesProps = {
     description: string
 }
 
-export function AppointmentAdd(){
-    const {id_appointment} = useParams<{ id_appointment: string | undefined }>();
-
-    const [users, setUsers] = useState<UsersProps[]>([]);
+export function DoctorsEdit(){
+    const {id_doctor} = useParams<{ id_doctor: string | undefined }>();
     const [doctors, setDoctors] = useState<DoctorsProps[]>([]);
     const [services, setServices] = useState<ServicesProps[]>([]);
 
     const [idUser, setIdUser] = useState("");
-    const [idDoctor, setIdDoctor] = useState(0);
-    const [idService, setIdService] = useState("");
-    const [bookingDate, setBookingDate] = useState("");
-    const [bookingHour, setBookingHour] = useState("");
+    const [idDoctor, setIdDoctor] = useState("");
+    const [idSpecialty, setIdSpecialty] = useState("");
+    const [idIcon, setIdIcon] = useState("");
 
     const navigate = useNavigate()
-
-    async function loadUsers() {
-        try {
-            const response = await api.get("/admin/users");
-
-            if (response.data) {
-                setUsers(response.data);
-            }
-
-        } catch (error) {
-            if (axios.isAxiosError(error) && error.response?.data.error) {
-                if (error.response.status == 401)
-                    return navigate("/");
-
-                alert(error.response?.data.error);
-            }
-            else
-                alert("Erro ao listar pacientes");
-        }
-    }
 
     async function loadDoctors() {
         try {
@@ -62,9 +34,9 @@ export function AppointmentAdd(){
                 setDoctors(response.data);
 
                 //Edit Mode
-                const appointmentId = parseInt(id_appointment ?? "0", 10);
-                if(appointmentId > 0)
-                    loadAppointment(appointmentId)
+                const idDoctor = parseInt(id_doctor ?? "0", 10);
+                if(idDoctor > 0)
+                    loadAppointment(idDoctor)
             }
 
         } catch (error) {
@@ -79,7 +51,7 @@ export function AppointmentAdd(){
         }
     }
 
-    async function loadServices(id: number) {
+    async function loadSpecialty(id: number) {
         try {
             const response = await api.get("/doctors/" + id + "/services");
 
@@ -94,7 +66,7 @@ export function AppointmentAdd(){
                 alert(error.response?.data.error);
             }
             else
-                alert("Erro ao listar os serviços.");
+                alert("Erro ao listar as especialidades.");
         }
     }
 
@@ -105,9 +77,7 @@ export function AppointmentAdd(){
             if (response.data) {
                 setIdUser(response.data.id_user);
                 setIdDoctor(response.data.id_doctor);
-                setIdService(response.data.id_service);
-                setBookingDate(response.data.booking_date);
-                setBookingHour(response.data.booking_hour);
+                setIdSpecialty(response.data.id_service);
             }
 
         } catch (error) {
@@ -125,18 +95,17 @@ export function AppointmentAdd(){
         const json = {
             id_user: idUser,
             id_doctor: idDoctor,
-            id_service: idService,
-            booking_date: bookingDate,
-            booking_hour: bookingHour,
+            id_specialty: idSpecialty,
+            icon: idIcon
         };
 
         try {
-            const appointmentId = parseInt(id_appointment ?? "0", 10);
-            const response = appointmentId > 0 ? 
-                await api.put("admin/appointments/" + appointmentId, json) :
-                await api.post("admin/appointments", json)
+            const idDoctor = parseInt(id_doctor ?? "0", 10);
+            const response = idDoctor > 0 ? 
+                await api.put("doctors/" + id_doctor, json) :
+                await api.post("doctors/", json)
             if(response.data){
-                navigate("/appointments");
+                navigate("/doctors");
             }
         } catch (error) {
             if (axios.isAxiosError(error) && error.response?.data.error) {
@@ -148,16 +117,15 @@ export function AppointmentAdd(){
             else
                 alert("Erro ao salvar os dados.");
         }
-        console.log(idUser, idDoctor, idService, bookingDate, bookingHour)
+        console.log(idUser, idDoctor, idSpecialty, idIcon)
     }
 
     useEffect(() => {
-        loadUsers();
         loadDoctors();
     }, []);
 
     useEffect(() => {
-        loadServices(idDoctor);
+        loadSpecialty(parseInt(idDoctor));
     }, [idDoctor])
 
     return(
@@ -168,50 +136,33 @@ export function AppointmentAdd(){
                     <div className="col-12">
                         <h2 className="text-2xl font-bold mb-2 xs:text-center">
                             {
-                                id_appointment && parseInt(id_appointment) > 0
-                                    ? "Editar Agendamento"
-                                    : "Novo Agendamento"
+                                id_doctor && parseInt(id_doctor) > 0
+                                    ? "Editar Médico"
+                                    : "Novo Médico"
                             }
                         </h2>
                     </div>
 
                     <div className="space-y-4 mt-4">
-                        <div className="col-12">
-                            <label htmlFor="user" className="form-label">Paciente</label>
-                            <div className="form-control mb-2">
-                                <select name="user" id="user"
-                                    value={idUser} onChange={(e) => setIdUser(e.target.value)} >
-                                    <option value="0">Selecione o paciente</option>
-
-                                    {
-                                        users.map(u => {
-                                            return <option key={u.id_user} value={u.id_user}>{u.name}</option>
-                                        })}
-
-                                </select>
-                            </div>
-                        </div>
-
                         <div className="col-12 ">
                             <label htmlFor="doctor" className="form-label">Médico</label>
                             <div className="form-control mb-2">
                                 <select name="doctor" id="doctor"
-                                    value={idDoctor} onChange={(e) => setIdDoctor(Number(e.target.value))} >
+                                    value={idDoctor} onChange={(e) => setIdDoctor(e.target.value)} >
                                     <option value="0">Selecione o médico</option>
 
                                     {doctors.map(d => {
                                         return <option key={d.id_doctor} value={d.id_doctor}>{d.name}</option>
                                     })}
-
                                 </select>
                             </div>
                         </div>
 
                         <div className="col-12">
-                            <label htmlFor="service" className="form-label">Serviço</label>
+                            <label htmlFor="specialty" className="form-label">Especialidade</label>
                             <div className="form-control mb-2">
-                                <select name="service" id="service" value={idService} onChange={(e) => setIdService(e.target.value)}>
-                                    <option value="0">Selecione o serviço</option>
+                                <select name="specialty" id="specialty" value={idSpecialty} onChange={(e) => setIdSpecialty(e.target.value)}>
+                                    <option value="0">Selecione a especialidade</option>
                                     {
                                         services.map((service) => {
                                             return(
@@ -223,21 +174,17 @@ export function AppointmentAdd(){
                             </div>
                         </div>
 
-                        <div className="flex justify-between">
-                            <div className="col-6">
-                                <label htmlFor="bookingDate" className="form-label">Data</label>
-                                <input type="date"className="form-control" name="bookingDate" id="bookingDate" value={bookingDate} onChange={(e) => setBookingDate(e.target.value)} />
-                            </div>
-                            <div className="col-5">
-                                <label htmlFor="bookingHour" className="form-label">Hora</label>
-                                <input type="time"className="form-control" name="bookingHour" id="bookingHour" value={bookingHour} onChange={(e) => setBookingHour(e.target.value)} />
+                        <div className="col-12">
+                            <label htmlFor="icon" className="form-label">Tipo</label>
+                            <div className="form-control mb-2">
+                                <input className="w-full outline-none" type="text" placeholder="Escrever apenas M ou F, maiúsculo" onChange={(e) => setIdIcon(e.target.value)} />
                             </div>
                         </div>
                     </div>
 
                     <div className="col-12 mt-8 xs:mb-8">
                         <div className="flex justify-end gap-4 xs:items-center xs:justify-center">
-                            <Link  to="/appointments" className="btn btn-danger">Cancelar</Link>
+                            <Link to="/doctors" className="btn btn-danger">Cancelar</Link>
                             <button className="btn btn-primary" type="button" onClick={handleClickSave}>Salvar Dados</button>
                         </div>
                     </div>

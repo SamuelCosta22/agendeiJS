@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo-white.png";
+import api from "../constants/api";
 
 export function NavBar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -8,6 +9,17 @@ export function NavBar() {
   
     const toggleMenu = () => setIsOpen(!isOpen);
     const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+
+    const navigate = useNavigate();
+    function handleClickLogout(){
+        localStorage.removeItem("sessionToken");
+        localStorage.removeItem("sessionId");
+        localStorage.removeItem("sessionEmail");
+        localStorage.removeItem("sessionName");
+
+        api.defaults.headers.common['Authorization'] = "";
+        navigate("/");
+    }
 
     return (
         <nav className="fixed top-0 left-0 w-full bg-[#0d6efd] text-white">
@@ -53,8 +65,8 @@ export function NavBar() {
                                 <hr className="border-t border-gray-300" />
                                 <button className="block px-4 py-2 hover:bg-gray-200 w-full text-left" onClick={() => {
                                     setIsDropdownOpen(false);
-                                }}>
-                                    <Link to='/'>Desconectar</Link>
+                                }}>                                    
+                                    <button onClick={handleClickLogout}>Desconectar</button>
                                 </button>
                             </div>
                         )}
@@ -69,7 +81,7 @@ export function NavBar() {
                         <li><Link className="hover:underline" to="/appointments">Agendamentos</Link></li>
                         <li><Link className="hover:underline" to="/doctors">Médicos</Link></li>
                         <li><Link className="hover:underline" to="#">Meu Perfil</Link></li>
-                        <li><Link className="hover:underline" to='/'>Desconectar</Link></li>
+                        <li><button className="hover:underline" onClick={handleClickLogout}>Desconectar</button></li>
                     </ul>
                 </div>
             )}

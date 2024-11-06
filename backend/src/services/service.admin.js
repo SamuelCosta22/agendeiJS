@@ -29,4 +29,10 @@ async function AdminLogin(email, password){
     }
 }
 
-export default { List, AdminRegister, AdminLogin }
+async function ListUsers(){
+    const users = await repositoryAdmin.ListUsers();
+    return users;
+}
+
+
+export default { List, AdminRegister, AdminLogin, ListUsers }
