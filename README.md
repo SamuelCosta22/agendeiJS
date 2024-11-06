@@ -6,7 +6,7 @@
 </div>
 
 <div>
-  <h3 align="justify">Um projeto para a Full Stack Week - ByFelipeRocha</h3>
+  <h3 align="justify">Um projeto para a Jornada JS - Dev Point</h3>
     <p align="justify"><strong>Conteúdo deste projeto: </strong>Desenvolvimento de um projeto de reserva médica, que pode ser alterado e utilizado para outras aplicações comerciais. Para este projeto foram utilizadas linguagens como ReactJS, ReactNative, TailwindCSS, Bootstrap, JavaScript e TypeScript. Os pacientes podem fazer agendamentos utilizando o aplicativo em ReactNative e os administradores podem gerenciar tudo na interface web, como excluir, marcar e editar uma consulta, além de excluir, adicionar e editar um médico.</p>
 </div>
 
